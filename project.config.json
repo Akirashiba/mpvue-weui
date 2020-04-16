@@ -9,9 +9,11 @@
 	},
 	"miniprogramRoot": "dist/",
 	"compileType": "miniprogram",
-	"appid": "wx29df2d5598f845b8",
-	"projectname": "mpvue-shop-ceshibanben",
+	"appid": "wxe48e9e702fabd6f3",
+	"projectname": "formula_calculate",
 	"libVersion": "2.8.3",
+	"simulatorType": "wechat",
+	"simulatorPluginLibVersion": {},
 	"condition": {
 		"search": {
 			"current": -1,
