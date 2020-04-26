@@ -51,7 +51,7 @@
   "window": {
     "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#ededed",
-    "navigationBarTitleText": "weui for mpvue",
+    "navigationBarTitleText": "formula calculator",
     "navigationBarTextStyle": "black"
   },
   "style": "v2"

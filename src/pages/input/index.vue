@@ -1,302 +1,349 @@
 <template>
   <div class="page">
     <div class="page__hd">
-      <div class="page__title">Input</div>
-      <div class="page__desc">表单输入</div>
+      <div class="page__title">xxx公式计算</div>
+      <div class="page__desc">xxx公式介绍</div>
     </div>
 
     <div class="page__bd">
-      <div class="weui-toptips weui-toptips_warn" v-if="showTopTips">错误提示</div>
-      <div class="weui-cells__title">单选列表项</div>
+      <div class="weui-cells__title">计算输入</div>
       <div class="weui-cells weui-cells_after-title">
-        <radio-group @change="radioChange">
-          <label
-            class="weui-cell weui-check__label"
-            v-for="(item,index) in radioItems"
-            :key="index"
-          >
-            <radio class="weui-check" :value="item.value" :checked="item.checked" />
-            <div class="weui-cell__bd">{{item.name}}</div>
-            <div class="weui-cell__ft weui-cell__ft_in-radio" v-if="item.checked">
-              <icon class="weui-icon-radio" type="success_no_circle" size="16"></icon>
-            </div>
-          </label>
-        </radio-group>
-        <div class="weui-cell weui-cell_link">
-          <div class="weui-cell__bd">添加更多</div>
-        </div>
-      </div>
-
-      <div class="weui-cells__title">复选列表项</div>
-      <div class="weui-cells weui-cells_after-title">
-        <checkbox-group @change="checkboxChange">
-          <label
-            class="weui-cell weui-check__label"
-            v-for="(item,index) in checkboxItems"
-            :key="index"
-          >
-            <checkbox class="weui-check" :value="item.value" :checked="item.checked" />
-            <div class="weui-cell__hd weui-check__hd_in-checkbox">
-              <icon class="weui-icon-checkbox_circle" type="circle" size="23" v-if="!item.checked"></icon>
-              <icon class="weui-icon-checkbox_success" type="success" size="23" v-if="item.checked"></icon>
-            </div>
-            <div class="weui-cell__bd">{{item.name}}</div>
-          </label>
-        </checkbox-group>
-        <div class="weui-cell weui-cell_link">
-          <div class="weui-cell__bd">添加更多</div>
-        </div>
-      </div>
-
-      <div class="weui-cells__title">表单</div>
-      <div class="weui-cells weui-cells_after-title">
-        <div class="weui-cell">
+        <div :class="{'weui-cell': true, 'weui-cell_warn': hasError['k_val']}">
           <div class="weui-cell__hd">
-            <div class="weui-label">qq</div>
+            <div class="weui-label">K值</div>
           </div>
           <div class="weui-cell__bd">
-            <input class="weui-input" placeholder="请输入qq" />
+            <input type="number" v-model="formulateForm.k_val" @input="KInput" class="weui-input" placeholder="请输入K值" />
+          </div>
+          <div v-if="hasError['k_val']" class="weui-cell__ft">
+            <icon type="warn" size="23" color="#E64340"></icon>
           </div>
         </div>
-        <div class="weui-cell weui-cell_vcode">
+        <div :class="{'weui-cell': true, 'weui-cell_warn': hasError['ax']}">
           <div class="weui-cell__hd">
-            <div class="weui-label">手机号</div>
+            <div class="weui-label">后侧塔累距ax</div>
           </div>
           <div class="weui-cell__bd">
-            <input class="weui-input" placeholder="请输入手机号" />
+            <input type="number" v-model="formulateForm.ax" @input="AxInput" class="weui-input" placeholder="请输入后侧塔累距ax" />
           </div>
-          <div class="weui-cell__ft">
-            <div class="weui-vcode-btn">获取验证码</div>
+          <div v-if="hasError['ax']" class="weui-cell__ft">
+            <icon type="warn" size="23" color="#E64340"></icon>
           </div>
         </div>
-        <div class="weui-cell">
+        <div :class="{'weui-cell': true, 'weui-cell_warn': hasError['ay']}">
           <div class="weui-cell__hd">
-            <div class="weui-label">日期</div>
+            <div class="weui-label">后侧挂点高ay</div>
           </div>
           <div class="weui-cell__bd">
-            <picker
-              mode="date"
-              value="date"
-              start="2015-09-01"
-              end="2017-09-01"
-              @change="bindDateChange"
-            >
-              <div class="weui-input">{{date}}</div>
-            </picker>
+            <input type="number" v-model="formulateForm.ay" @input="AyInput" class="weui-input" placeholder="请输入后侧挂点高ay" />
+          </div>
+          <div v-if="hasError['ay']" class="weui-cell__ft">
+            <icon type="warn" size="23" color="#E64340"></icon>
           </div>
         </div>
-        <div class="weui-cell">
+        <div :class="{'weui-cell': true, 'weui-cell_warn': hasError['cx']}">
           <div class="weui-cell__hd">
-            <div class="weui-label">时间</div>
+            <div class="weui-label">前侧塔累距cx</div>
           </div>
           <div class="weui-cell__bd">
-            <picker mode="time" value="time" start="09:01" end="21:01" @change="bindTimeChange">
-              <div class="weui-input">{{time}}</div>
-            </picker>
+            <input type="number" v-model="formulateForm.cx" @input="CxInput" class="weui-input" placeholder="请输入前侧塔累距cx" />
+          </div>
+          <div v-if="hasError['cx']" class="weui-cell__ft">
+            <icon type="warn" size="23" color="#E64340"></icon>
           </div>
         </div>
-        <div class="weui-cell weui-cell_vcode">
+        <div :class="{'weui-cell': true, 'weui-cell_warn': hasError['cy']}">
           <div class="weui-cell__hd">
-            <div class="weui-label">验证码</div>
+            <div class="weui-label">前侧挂点高cy</div>
           </div>
           <div class="weui-cell__bd">
-            <input class="weui-input" placeholder="请输入验证码" />
+            <input type="number" v-model="formulateForm.cy" @input="CyInput" class="weui-input" placeholder="请输入前侧挂点高cy" />
           </div>
-          <div class="weui-cell__ft">
-            <image class="weui-vcode-img" src="/static/images/vcode.jpg" style="width: 108px" />
+          <div v-if="hasError['cy']" class="weui-cell__ft">
+            <icon type="warn" size="23" color="#E64340"></icon>
           </div>
         </div>
-      </div>
-
-      <div class="weui-cells__tips">底部说明文字底部说明文字</div>
-
-      <div class="weui-cells__title">表单报错</div>
-      <div class="weui-cells weui-cells_after-title">
-        <div class="weui-cell weui-cell_warn">
+        <div :class="{'weui-cell': true, 'weui-cell_warn': hasError['x1']}">
           <div class="weui-cell__hd">
-            <div class="weui-label">卡号</div>
+            <div class="weui-label">验算点累距x1</div>
           </div>
           <div class="weui-cell__bd">
-            <input class="weui-input" placeholder="请输入卡号" />
+            <input type="number" v-model="formulateForm.x1" @input="X1Input" class="weui-input" placeholder="请输入验算点累距x1" />
           </div>
-          <div class="weui-cell__ft">
+          <div v-if="hasError['x1']" class="weui-cell__ft">
+            <icon type="warn" size="23" color="#E64340"></icon>
+          </div>
+        </div>
+        <div :class="{'weui-cell': true, 'weui-cell_warn': hasError['y1']}">
+          <div class="weui-cell__hd">
+            <div class="weui-label">高程y1</div>
+          </div>
+          <div class="weui-cell__bd">
+            <input type="number" v-model="formulateForm.y1" @input="Y1Input" class="weui-input" placeholder="请输入高程y1" />
+          </div>
+          <div v-if="hasError['y1']" class="weui-cell__ft">
+            <icon type="warn" size="23" color="#E64340"></icon>
+          </div>
+        </div>
+        <div :class="{'weui-cell': true, 'weui-cell_warn': hasError['x2']}">
+          <div class="weui-cell__hd">
+            <div class="weui-label">验算点累距x2</div>
+          </div>
+          <div class="weui-cell__bd">
+            <input type="number" v-model="formulateForm.x2" @input="X2Input" class="weui-input" placeholder="请输入验算点累距x2" />
+          </div>
+          <div v-if="hasError['x2']" class="weui-cell__ft">
+            <icon type="warn" size="23" color="#E64340"></icon>
+          </div>
+        </div>
+        <div :class="{'weui-cell': true, 'weui-cell_warn': hasError['y2']}">
+          <div class="weui-cell__hd">
+            <div class="weui-label">高程y2</div>
+          </div>
+          <div class="weui-cell__bd">
+            <input type="number" v-model="formulateForm.y2" @input="Y2Input" class="weui-input" placeholder="请输入高程y2" />
+          </div>
+          <div v-if="hasError['y2']" class="weui-cell__ft">
+            <icon type="warn" size="23" color="#E64340"></icon>
+          </div>
+        </div>
+        <div :class="{'weui-cell': true, 'weui-cell_warn': hasError['x3']}">
+          <div class="weui-cell__hd">
+            <div class="weui-label">验算点累距x3</div>
+          </div>
+          <div class="weui-cell__bd">
+            <input type="number" v-model="formulateForm.x3" @input="X3Input" class="weui-input" placeholder="请输入验算点累距x3" />
+          </div>
+          <div v-if="hasError['x3']" class="weui-cell__ft">
+            <icon type="warn" size="23" color="#E64340"></icon>
+          </div>
+        </div>
+        <div :class="{'weui-cell': true, 'weui-cell_warn': hasError['y3']}">
+          <div class="weui-cell__hd">
+            <div class="weui-label">高程y3</div>
+          </div>
+          <div class="weui-cell__bd">
+            <input type="number" v-model="formulateForm.y3" @input="Y3Input" class="weui-input" placeholder="请输入高程y3" />
+          </div>
+          <div v-if="hasError['y3']" class="weui-cell__ft">
             <icon type="warn" size="23" color="#E64340"></icon>
           </div>
         </div>
       </div>
-
-      <div class="weui-cells__title">开关</div>
+      <div class="weui-cells__title">验算塔参数</div>
       <div class="weui-cells weui-cells_after-title">
         <div class="weui-cell weui-cell_switch">
-          <div class="weui-cell__bd">标题文字</div>
+          <div class="weui-cell__bd">是否使用验算塔</div>
           <div class="weui-cell__ft">
             <switch checked @change="switchChange" />
           </div>
         </div>
+        <div v-if="useCheckTowel" :class="{'weui-cell': true, 'weui-cell_warn': hasError['bx']}">
+          <div class="weui-cell__hd">
+            <div class="weui-label">验算塔累距bx</div>
+          </div>
+          <div class="weui-cell__bd">
+            <input type="number" v-model="formulateForm.bx" @input="BxInput" class="weui-input" placeholder="请输入验算塔累距bx" />
+          </div>
+          <div v-if="hasError['bx']" class="weui-cell__ft">
+            <icon type="warn" size="23" color="#E64340"></icon>
+          </div>
+        </div>
+        <div v-if="useCheckTowel" :class="{'weui-cell': true, 'weui-cell_warn': hasError['by']}">
+          <div class="weui-cell__hd">
+            <div class="weui-label">验算塔挂高by</div>
+          </div>
+          <div class="weui-cell__bd">
+            <input type="number" v-model="formulateForm.by" @input="ByInput" class="weui-input" placeholder="请输入验算塔挂点高by" />
+          </div>
+          <div v-if="hasError['by']" class="weui-cell__ft">
+            <icon type="warn" size="23" color="#E64340"></icon>
+          </div>
+        </div>
       </div>
-
-      <div class="weui-cells__title">文本框</div>
+      <div class="weui-cells__title">计算输出</div>
       <div class="weui-cells weui-cells_after-title">
         <div class="weui-cell">
+          <div class="weui-cell__hd">
+            <div class="weui-label">结果</div>
+          </div>
           <div class="weui-cell__bd">
-            <input class="weui-input" placeholder="请输入文本" />
+            <input v-model="result" disabled class="weui-input" />
           </div>
         </div>
       </div>
-
-      <div class="weui-cells__title">文本域</div>
-      <div class="weui-cells weui-cells_after-title">
-        <div class="weui-cell">
-          <div class="weui-cell__bd">
-            <textarea class placeholder="请输入文本" style="height: 3.3em" />
-            <div class="weui-textarea-counter">0/200</div>
-          </div>
-        </div>
-      </div>
-
-      <div class="weui-cells__title">选择</div>
-      <div class="weui-cells weui-cells_after-title">
-        <div class="weui-cell weui-cell_select">
-          <div class="weui-cell__hd" style="width: 105px;padding-left:0">
-            <picker @change="bindCountryCodeChange" :range="countryCodes">
-              <div class="weui-select">{{countryCodes[countryCodesIndex]}}</div>
-            </picker>
-          </div>
-          <div class="weui-cell__bd weui-cell__bd_in-select-before">
-            <input class="weui-input" placeholder="请输入号码" />
-          </div>
-        </div>
-      </div>
-
-      <div class="weui-cells__title">选择</div>
-      <div class="weui-cells weui-cells_after-title">
-        <div class="weui-cell weui-cell_select">
-          <div class="weui-cell__bd">
-            <picker @change="bindAccountChange" :range="accounts">
-              <div class="weui-select">{{accounts[accountsIndex]}}</div>
-            </picker>
-          </div>
-        </div>
-        <div class="weui-cell weui-cell_select">
-          <div class="weui-cell__hd weui-cell__hd_in-select-after">
-            <div class="weui-label">国家/地区</div>
-          </div>
-          <div class="weui-cell__bd">
-            <picker @change="bindCountryChange" :range="countries">
-              <div class="weui-select weui-select_in-select-after">{{countries[countryIndex]}}</div>
-            </picker>
-          </div>
-        </div>
-      </div>
-
-      <checkbox-group @click="bindAgreeChange">
-        <label class="weui-agree" for="weuiAgree">
-          <div class="weui-agree__text">
-            <checkbox class="weui-agree__checkbox" id="weuiAgree" value="agree" checked="isAgree" />
-            <div class="weui-agree__checkbox-icon">
-              <icon
-                class="weui-agree__checkbox-icon-check"
-                type="success_no_circle"
-                size="9"
-                v-if="isAgree"
-              ></icon>
-            </div>阅读并同意
-            <navigator url class="weui-agree__link">《相关条款》</navigator>
-          </div>
-        </label>
-      </checkbox-group>
-
       <div class="weui-btn-area">
-        <button class="weui-btn" type="primary" @click="showTopTipsFun">确定</button>
+        <button class="weui-btn" type="primary" @click="fooFunction">确定</button>
+      </div>
+      <div :class="['weui-demo-dialog', istrue ? 'weui-demo-dialog_show' : '']">
+        <div class="weui-mask" @click="closeDialog"></div>
+        <div class="weui-dialog__wrp" @click="closeDialog">
+          <div class="weui-dialog" catchtouchmove>
+            <div class="weui-dialog__hd">
+              <div class="weui-dialog__title">参数错误</div>
+            </div>
+            <div class="weui-dialog__bd">
+              {{ error_msg }}
+            </div>
+            <div class="weui-dialog__ft">
+              <div class="weui-dialog__btn weui-dialog__btn_default" @click="closeDialog">取消</div>
+              <div class="weui-dialog__btn" @click="closeDialog">确定</div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
+
   </div>
 </template>
 
 <script>
+import { rules } from "@/utils/formulate.js";
 export default {
   data() {
     return {
-      showTopTips: false,
-      time: '09:01',
-      date: '2015-09-01',
-      countryCodes: ["+86", "+80", "+84", "+87"],
-      countryCodesIndex: 0,
-      countries: ["中国", "美国", "英国"],
-      countryIndex: 0,
-      accounts: ["微信号", "QQ", "Email"],
-      accountsIndex: 0,
-
-      radioItems: [
-        { name: 'cell standard', value: '0' },
-        { name: 'cell standard', value: '1', checked: true }
-      ],
-      checkboxItems: [
-        { name: 'standard is dealt for u.', value: '0', checked: true },
-        { name: 'standard is dealicient for u.', value: '1', checked: false }
-      ],
-
-      isAgree: false
+      useCheckTowel: true,
+      istrue: false,
+      formulateForm: {
+        k_val: rules["k_val"]["default"],
+        ax: rules["ax"]["default"],
+        ay: rules["ay"]["default"],
+        bx: rules["bx"]["default"],
+        by: rules["by"]["default"],
+        cx: rules["cx"]["default"],
+        cy: rules["cy"]["default"],
+        x1: rules["x1"]["default"],
+        y1: rules["y1"]["default"],
+        x2: rules["x2"]["default"],
+        y2: rules["y2"]["default"],
+        x3: rules["x3"]["default"],
+        y3: rules["y3"]["default"]
+      },
+      hasError: {
+        k_val: false,
+        ax: false,
+        ay: false,
+        bx: false,
+        by: false,
+        cx: false,
+        cy: false,
+        x1: false,
+        y1: false,
+        x2: false,
+        y2: false,
+        x3: false,
+        y3: false
+      },
+      result: "",
+      error_msg: ""
     }
   },
-  methods: {
-    checkboxChange(e) {
-      console.log('checkbox发生change事件，携带value值为：' + e.mp.detail.value);
-      var checkboxItems = this.checkboxItems;
-      var values = e.mp.detail.value;
-      for (var i = 0, lenI = checkboxItems.length; i < lenI; ++i) {
-        checkboxItems[i].checked = false;
+  mounted: function() {
 
-        for (var j = 0, lenJ = values.length; j < lenJ; ++j) {
-          if (checkboxItems[i].value === values[j]) {
-            checkboxItems[i].checked = true;
-            break;
+  },
+  methods: {
+    fooFunction() {
+      let props = this.formulateForm;
+      for (var prop in props) {
+        if (!(!this.useCheckTowel && ["bx", "cx"].includes(prop))) {
+          let value = this.formulateForm[prop];
+          if (!this.checkRules(prop, value)) {
+            this.openDialog();
+            return;
           }
         }
       }
-      this.checkboxItems = checkboxItems;
-    },
-    radioChange(e) {
-      console.log('radio发生change事件，携带value值为：' + e.mp.detail.value);
-      let radioItems = this.radioItems;
-      for (let i = 0; i < radioItems.length; ++i) {
-        radioItems[i].checked = radioItems[i].value === e.mp.detail.value;
-      }
-      this.radioItems = radioItems;
+      console.log(this.formulateForm);
     },
     switchChange(e) {
       console.log("switch发生change事件，携带value值为：" + e.mp.detail.value);
+      this.useCheckTowel = e.mp.detail.value;
     },
-    bindDateChange(e) {
-      this.date = e.mp.detail.value;
-      console.log(e.mp.detail.value);
+    checkRules(prop, value) {
+      let propHasError = !rules[prop]["pattern"].test(value);
+      let range = rules[prop]["range"];
+      if (range && !propHasError) {
+        propHasError = value < range[0] || value > range[1];
+      }
+      if (propHasError) {
+        this.error_msg = rules[prop]["error_msg"];
+      }
+      this.hasError[prop] = propHasError;
+      return !propHasError;
     },
-    bindTimeChange(e) {
-      this.time = e.mp.detail.value;
-      console.log(e.mp.detail.value);
+    KInput(e) {
+      this.checkRules("k_val", e.mp.detail.value);
+      this.formulateForm.k_val = e.mp.detail.value;
     },
-    showTopTipsFun() {
-      this.showTopTips = true;
-      setTimeout(() => {
-        this.showTopTips = false;
-      }, 2000)
+    AxInput(e) {
+      this.checkRules("ax", e.mp.detail.value);
+      this.formulateForm.ax = e.mp.detail.value;
     },
-
-    bindCountryChange(e) {
-      this.countryIndex = e.mp.detail.value;
+    BxInput(e) {
+      this.checkRules("bx", e.mp.detail.value);
+      this.formulateForm.bx = e.mp.detail.value;
     },
-    bindAccountChange(e) {
-      this.accountsIndex = e.mp.detail.value;
+    CxInput(e) {
+      this.checkRules("cx", e.mp.detail.value);
+      this.formulateForm.cx = e.mp.detail.value;
     },
-    bindCountryCodeChange(e) {
-      this.countryCodesIndex = e.mp.detail.value;
+    AyInput(e) {
+      this.checkRules("ay", e.mp.detail.value);
+      this.formulateForm.ay = e.mp.detail.value;
     },
-    bindAgreeChange(e) {
-      this.isAgree = !this.isAgree;
+    ByInput(e) {
+      this.checkRules("by", e.mp.detail.value);
+      this.formulateForm.by = e.mp.detail.value;
+    },
+    CyInput(e) {
+      this.checkRules("cy", e.mp.detail.value);
+      this.formulateForm.cy = e.mp.detail.value;
+    },
+    X1Input(e) {
+      this.checkRules("x1", e.mp.detail.value);
+      this.formulateForm.x1 = e.mp.detail.value;
+    },
+    X2Input(e) {
+      this.checkRules("x2", e.mp.detail.value);
+      this.formulateForm.x2 = e.mp.detail.value;
+    },
+    X3Input(e) {
+      this.checkRules("x3", e.mp.detail.value);
+      this.formulateForm.x3 = e.mp.detail.value;
+    },
+    Y1Input(e) {
+      this.checkRules("y1", e.mp.detail.value);
+      this.formulateForm.y1 = e.mp.detail.value;
+    },
+    Y2Input(e) {
+      this.checkRules("y2", e.mp.detail.value);
+      this.formulateForm.y2 = e.mp.detail.value;
+    },
+    Y3Input(e) {
+      this.checkRules("y3", e.mp.detail.value);
+      this.formulateForm.y3 = e.mp.detail.value;
+    },
+    openDialog() {
+      this.istrue = true;
+    },
+    closeDialog() {
+      this.istrue = false;
     }
   }
 }
 </script>
 
-<style>
+<style scoped>
+.weui-label {
+  width: 140px;
+}
+.weui-demo-dialog {
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+.weui-demo-dialog_show {
+  visibility: visible;
+  opacity: 1;
+}
 </style>

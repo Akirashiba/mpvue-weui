@@ -1,9 +1,25 @@
 <template>
   <div class="page">
     <div class="page__hd">
-      <div class="page__title">WeUI</div>
-      <div class="page__desc">WeUI 是一套同微信原生视觉体验一致的基础样式库，由微信官方设计团队为微信内网页和微信小程序量身设计，令用户的使用感知更加统一。</div>
+      <div class="page__title">物理公式计算器</div>
+      <div class="page__desc">一些工作中常用到的公式计算</div>
     </div>
+    <div class="weui-search-bar">
+        <div class="weui-search-bar__form">
+          <div class="weui-search-bar__box">
+            <icon class="weui-icon-search_in-box" type="search" size="14"></icon>
+            <input type="text" class="weui-search-bar__input" placeholder="搜索" v-model="inputVal" :focus="inputShowed" @input="inputTyping" />
+            <div class="weui-icon-clear" v-if="inputVal.length > 0" @click="clearInput">
+              <icon type="clear" size="14"></icon>
+            </div>
+          </div>
+          <label class="weui-search-bar__label" :hidden="inputShowed" @click="showInput">
+            <icon class="weui-icon-search" type="search" size="14"></icon>
+            <div class="weui-search-bar__text">搜索</div>
+          </label>
+        </div>
+        <div class="weui-search-bar__cancel-btn" :hidden="!inputShowed" @click="hideInput">取消</div>
+      </div>
     <div class="page__bd page__bd_spacing">
       <div class="kind-list">
         <div v-for="(item1,index1) in list" :key="index1">
@@ -44,13 +60,13 @@ export default {
       list: [
         {
           id: 'form',
-          name: '表单',
+          name: '电磁学公式',
           open: false,
-          pages: ['button', 'list', 'slide-view', 'input', 'slider', 'uploader']
+          pages: ['input']
         },
         {
           id: 'widget',
-          name: '基础组件',
+          name: '光学公式',
           open: false,
           pages: [
             'article',
@@ -70,29 +86,19 @@ export default {
         },
         {
           id: 'feedback',
-          name: '操作反馈',
+          name: '力学公式',
           open: false,
           pages: ['actionsheet', 'dialog', 'half-screen-dialog', 'msg', 'picker', 'toast']
         },
         {
           id: 'nav',
-          name: '导航相关',
+          name: '热力学公式',
           open: false,
-          pages: ['navbar', 'navigation-bar', 'tabbar']
-        },
-        {
-          id: 'search',
-          name: '搜索相关',
-          open: false,
-          pages: ['searchbar']
-        },
-        {
-          id: 'issues',
-          name: 'issues 需求',
-          open: false,
-          pages: ['request', 'vuex', 'rate']
+          pages: ['navbar', 'navigation-bar', 'tabbar', 'button', 'list', 'slide-view', 'slider', 'uploader']
         }
-      ]
+      ],
+      inputShowed: false,
+      inputVal: ''
     };
   },
 
@@ -110,6 +116,21 @@ export default {
         }
       }
       this.list = list;
+    },
+    showInput() {
+      this.inputShowed = true;
+    },
+    hideInput() {
+      this.inputVal = '';
+      this.inputShowed = false;
+    },
+    clearInput() {
+      this.inputVal = '';
+    },
+    inputTyping(e) {
+      console.log(e);
+      this.inputVal = e.mp.detail.value;
+      console.log('输入信息为：'+e.mp.detail.value);
     }
   },
 
@@ -123,6 +144,15 @@ export default {
  * Copyright 2019 Tencent, Inc.
  * Licensed under the MIT license
  */
+
+.page__hd {
+  padding: 20px;
+}
+
+.weui-search-bar {
+  padding-left: 15px;
+  padding-right: 15px;
+}
 
 .weui-flex {
   -webkit-box-align: center;
