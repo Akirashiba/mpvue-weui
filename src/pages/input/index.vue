@@ -8,124 +8,24 @@
     <div class="page__bd">
       <div class="weui-cells__title">计算输入</div>
       <div class="weui-cells weui-cells_after-title">
-        <div :class="{'weui-cell': true, 'weui-cell_warn': hasError['k_val']}">
+        <div
+          v-for="input_prop in inputList"
+          :key="input_prop"
+          :class="{'weui-cell': true, 'weui-cell_warn': inputs_error[input_prop]}"
+        >
           <div class="weui-cell__hd">
-            <div class="weui-label">K值</div>
+            <div class="weui-label">{{ inputs_name[input_prop] }}</div>
           </div>
           <div class="weui-cell__bd">
-            <input type="number" v-model="formulateForm.k_val" @input="KInput" class="weui-input" placeholder="请输入K值" />
+            <input
+              type="number"
+              v-model="inputs_val[input_prop]"
+              @input="inputChange($event, input_prop)"
+              class="weui-input"
+              :placeholder="'请输入' + inputs_name[input_prop]"
+            />
           </div>
-          <div v-if="hasError['k_val']" class="weui-cell__ft">
-            <icon type="warn" size="23" color="#E64340"></icon>
-          </div>
-        </div>
-        <div :class="{'weui-cell': true, 'weui-cell_warn': hasError['ax']}">
-          <div class="weui-cell__hd">
-            <div class="weui-label">后侧塔累距ax</div>
-          </div>
-          <div class="weui-cell__bd">
-            <input type="number" v-model="formulateForm.ax" @input="AxInput" class="weui-input" placeholder="请输入后侧塔累距ax" />
-          </div>
-          <div v-if="hasError['ax']" class="weui-cell__ft">
-            <icon type="warn" size="23" color="#E64340"></icon>
-          </div>
-        </div>
-        <div :class="{'weui-cell': true, 'weui-cell_warn': hasError['ay']}">
-          <div class="weui-cell__hd">
-            <div class="weui-label">后侧挂点高ay</div>
-          </div>
-          <div class="weui-cell__bd">
-            <input type="number" v-model="formulateForm.ay" @input="AyInput" class="weui-input" placeholder="请输入后侧挂点高ay" />
-          </div>
-          <div v-if="hasError['ay']" class="weui-cell__ft">
-            <icon type="warn" size="23" color="#E64340"></icon>
-          </div>
-        </div>
-        <div :class="{'weui-cell': true, 'weui-cell_warn': hasError['cx']}">
-          <div class="weui-cell__hd">
-            <div class="weui-label">前侧塔累距cx</div>
-          </div>
-          <div class="weui-cell__bd">
-            <input type="number" v-model="formulateForm.cx" @input="CxInput" class="weui-input" placeholder="请输入前侧塔累距cx" />
-          </div>
-          <div v-if="hasError['cx']" class="weui-cell__ft">
-            <icon type="warn" size="23" color="#E64340"></icon>
-          </div>
-        </div>
-        <div :class="{'weui-cell': true, 'weui-cell_warn': hasError['cy']}">
-          <div class="weui-cell__hd">
-            <div class="weui-label">前侧挂点高cy</div>
-          </div>
-          <div class="weui-cell__bd">
-            <input type="number" v-model="formulateForm.cy" @input="CyInput" class="weui-input" placeholder="请输入前侧挂点高cy" />
-          </div>
-          <div v-if="hasError['cy']" class="weui-cell__ft">
-            <icon type="warn" size="23" color="#E64340"></icon>
-          </div>
-        </div>
-        <div :class="{'weui-cell': true, 'weui-cell_warn': hasError['x1']}">
-          <div class="weui-cell__hd">
-            <div class="weui-label">验算点累距x1</div>
-          </div>
-          <div class="weui-cell__bd">
-            <input type="number" v-model="formulateForm.x1" @input="X1Input" class="weui-input" placeholder="请输入验算点累距x1" />
-          </div>
-          <div v-if="hasError['x1']" class="weui-cell__ft">
-            <icon type="warn" size="23" color="#E64340"></icon>
-          </div>
-        </div>
-        <div :class="{'weui-cell': true, 'weui-cell_warn': hasError['y1']}">
-          <div class="weui-cell__hd">
-            <div class="weui-label">高程y1</div>
-          </div>
-          <div class="weui-cell__bd">
-            <input type="number" v-model="formulateForm.y1" @input="Y1Input" class="weui-input" placeholder="请输入高程y1" />
-          </div>
-          <div v-if="hasError['y1']" class="weui-cell__ft">
-            <icon type="warn" size="23" color="#E64340"></icon>
-          </div>
-        </div>
-        <div :class="{'weui-cell': true, 'weui-cell_warn': hasError['x2']}">
-          <div class="weui-cell__hd">
-            <div class="weui-label">验算点累距x2</div>
-          </div>
-          <div class="weui-cell__bd">
-            <input type="number" v-model="formulateForm.x2" @input="X2Input" class="weui-input" placeholder="请输入验算点累距x2" />
-          </div>
-          <div v-if="hasError['x2']" class="weui-cell__ft">
-            <icon type="warn" size="23" color="#E64340"></icon>
-          </div>
-        </div>
-        <div :class="{'weui-cell': true, 'weui-cell_warn': hasError['y2']}">
-          <div class="weui-cell__hd">
-            <div class="weui-label">高程y2</div>
-          </div>
-          <div class="weui-cell__bd">
-            <input type="number" v-model="formulateForm.y2" @input="Y2Input" class="weui-input" placeholder="请输入高程y2" />
-          </div>
-          <div v-if="hasError['y2']" class="weui-cell__ft">
-            <icon type="warn" size="23" color="#E64340"></icon>
-          </div>
-        </div>
-        <div :class="{'weui-cell': true, 'weui-cell_warn': hasError['x3']}">
-          <div class="weui-cell__hd">
-            <div class="weui-label">验算点累距x3</div>
-          </div>
-          <div class="weui-cell__bd">
-            <input type="number" v-model="formulateForm.x3" @input="X3Input" class="weui-input" placeholder="请输入验算点累距x3" />
-          </div>
-          <div v-if="hasError['x3']" class="weui-cell__ft">
-            <icon type="warn" size="23" color="#E64340"></icon>
-          </div>
-        </div>
-        <div :class="{'weui-cell': true, 'weui-cell_warn': hasError['y3']}">
-          <div class="weui-cell__hd">
-            <div class="weui-label">高程y3</div>
-          </div>
-          <div class="weui-cell__bd">
-            <input type="number" v-model="formulateForm.y3" @input="Y3Input" class="weui-input" placeholder="请输入高程y3" />
-          </div>
-          <div v-if="hasError['y3']" class="weui-cell__ft">
+          <div v-if="inputs_error[input_prop]" class="weui-cell__ft">
             <icon type="warn" size="23" color="#E64340"></icon>
           </div>
         </div>
@@ -138,37 +38,36 @@
             <switch checked @change="switchChange" />
           </div>
         </div>
-        <div v-if="useCheckTowel" :class="{'weui-cell': true, 'weui-cell_warn': hasError['bx']}">
+        <div
+          v-for="check_towel_input_prop in checkTowelInputList"
+          :key="check_towel_input_prop"
+          :class="{'weui-cell': true, 'weui-cell_warn': inputs_error[check_towel_input_prop]}"
+        >
           <div class="weui-cell__hd">
-            <div class="weui-label">验算塔累距bx</div>
+            <div class="weui-label">{{ inputs_name[check_towel_input_prop] }}</div>
           </div>
           <div class="weui-cell__bd">
-            <input type="number" v-model="formulateForm.bx" @input="BxInput" class="weui-input" placeholder="请输入验算塔累距bx" />
+            <input
+              type="number"
+              v-model="inputs_val[check_towel_input_prop]"
+              @input="inputChange($event, check_towel_input_prop)"
+              class="weui-input"
+              :placeholder="'请输入' + inputs_name[check_towel_input_prop]"
+            />
           </div>
-          <div v-if="hasError['bx']" class="weui-cell__ft">
-            <icon type="warn" size="23" color="#E64340"></icon>
-          </div>
-        </div>
-        <div v-if="useCheckTowel" :class="{'weui-cell': true, 'weui-cell_warn': hasError['by']}">
-          <div class="weui-cell__hd">
-            <div class="weui-label">验算塔挂高by</div>
-          </div>
-          <div class="weui-cell__bd">
-            <input type="number" v-model="formulateForm.by" @input="ByInput" class="weui-input" placeholder="请输入验算塔挂点高by" />
-          </div>
-          <div v-if="hasError['by']" class="weui-cell__ft">
+          <div v-if="inputs_error[check_towel_input_prop]" class="weui-cell__ft">
             <icon type="warn" size="23" color="#E64340"></icon>
           </div>
         </div>
       </div>
       <div class="weui-cells__title">计算输出</div>
       <div class="weui-cells weui-cells_after-title">
-        <div class="weui-cell">
+        <div v-for="output_prop in outPutList" :key="output_prop" class="weui-cell">
           <div class="weui-cell__hd">
-            <div class="weui-label">结果</div>
+            <div class="weui-label">{{ outputs[output_prop]['name'] }}</div>
           </div>
           <div class="weui-cell__bd">
-            <input v-model="result" disabled class="weui-input" />
+            <input v-model="outputs[output_prop]['value']" disabled class="weui-input" />
           </div>
         </div>
       </div>
@@ -204,22 +103,8 @@ export default {
     return {
       useCheckTowel: true,
       istrue: false,
-      formulateForm: {
-        k_val: rules["k_val"]["default"],
-        ax: rules["ax"]["default"],
-        ay: rules["ay"]["default"],
-        bx: rules["bx"]["default"],
-        by: rules["by"]["default"],
-        cx: rules["cx"]["default"],
-        cy: rules["cy"]["default"],
-        x1: rules["x1"]["default"],
-        y1: rules["y1"]["default"],
-        x2: rules["x2"]["default"],
-        y2: rules["y2"]["default"],
-        x3: rules["x3"]["default"],
-        y3: rules["y3"]["default"]
-      },
-      hasError: {
+      inputList: ["k_val", "ax", "ay", "cx", "cy", "x1", "y1", "x2", "y2", "x3", "y3"],
+      inputs_error: {
         k_val: false,
         ax: false,
         ay: false,
@@ -234,26 +119,171 @@ export default {
         x3: false,
         y3: false
       },
+      inputs_name: {
+        k_val: rules["k_val"]["name"],
+        ax: rules["ax"]["name"],
+        ay: rules["ay"]["name"],
+        bx: rules["bx"]["name"],
+        by: rules["by"]["name"],
+        cx: rules["cx"]["name"],
+        cy: rules["cy"]["name"],
+        x1: rules["x1"]["name"],
+        y1: rules["y1"]["name"],
+        x2: rules["x2"]["name"],
+        y2: rules["y2"]["name"],
+        x3: rules["x3"]["name"],
+        y3: rules["y3"]["name"]
+      },
+      inputs_val: {
+        k_val: rules["k_val"]["default"],
+        ax: rules["ax"]["default"],
+        ay: rules["ay"]["default"],
+        bx: rules["bx"]["default"],
+        by: rules["by"]["default"],
+        cx: rules["cx"]["default"],
+        cy: rules["cy"]["default"],
+        x1: rules["x1"]["default"],
+        y1: rules["y1"]["default"],
+        x2: rules["x2"]["default"],
+        y2: rules["y2"]["default"],
+        x3: rules["x3"]["default"],
+        y3: rules["y3"]["default"]
+      },
+      outputs: {
+        h1: {
+          name: "高差h1",
+          value: 0.0
+        },
+        h2: {
+          name: "高差h2",
+          value: 0.0
+        },
+        h3: {
+          name: "高差h3",
+          value: 0.0
+        },
+        ad: {
+          name: "后侧悬垂角ad",
+          value: 0.0
+        },
+        cd: {
+          name: "前侧悬垂角cd",
+          value: 0.0
+        },
+        fm: {
+          name: "最大弧垂fm",
+          value: 0.0
+        },
+        kv: {
+          name: "kv系数",
+          value: 0.0
+        }
+      },
       result: "",
       error_msg: ""
     }
   },
+  computed: {
+    outPutList: function() {
+      if (this.useCheckTowel) {
+        return ["h1", "h2", "h3", "ad", "cd", "kv"];
+      } else {
+        return ["h1", "h2", "h3", "ad", "cd", "fm"];
+      }
+    },
+    checkTowelInputList: function() {
+      if (this.useCheckTowel) {
+        return ["bx", "by"];
+      } else {
+        return [];
+      }
+    }
+  },
   mounted: function() {
-
   },
   methods: {
+    noCheckTowelCalculate() {
+      let k = this.inputs_val["k_val"];
+      let x1 = this.inputs_val["x1"];
+      let y1 = this.inputs_val["y1"];
+      let x2 = this.inputs_val["x2"];
+      let y2 = this.inputs_val["y2"];
+      let x3 = this.inputs_val["x3"];
+      let y3 = this.inputs_val["y3"];
+      let cx = this.inputs_val["cx"];
+      let cy = this.inputs_val["cy"];
+      let ax = this.inputs_val["ax"];
+      let ay = this.inputs_val["ay"];
+      let l = cx - ax;
+      this.outputs["fm"] = k * Math.pow(l, 2);
+      let tanb = (cy - ay) / l;
+      if (x1 > 0) {
+        this.outputs["h1"]["value"] = tanb * (x1 - ax) - 4 * k * (x1 - ax) * (cx - x1) - y1;
+      }
+      if (x2 > 0) {
+        this.outputs["h2"]["value"] = tanb * (x2 - ax) - 4 * k * (x2 - ax) * (cx - x2) - y2;
+      }
+      if (x3 > 0) {
+        this.outputs["h3"]["value"] = tanb * (x3 - ax) - 4 * k * (x3 - ax) * (cx - x3) - y3;
+      }
+      this.outputs["ad"] = 4 * k * l - tanb;
+      this.outputs["cd"] = 4 * k * l + tanb;
+    },
+    CheckTowelCalculate() {
+      let k = this.inputs_val["k_val"];
+      let x1 = this.inputs_val["x1"];
+      let y1 = this.inputs_val["y1"];
+      let x2 = this.inputs_val["x2"];
+      let y2 = this.inputs_val["y2"];
+      let x3 = this.inputs_val["x3"];
+      let y3 = this.inputs_val["y3"];
+      let cx = this.inputs_val["cx"];
+      let cy = this.inputs_val["cy"];
+      let bx = this.inputs_val["bx"];
+      let by = this.inputs_val["by"];
+      let ax = this.inputs_val["ax"];
+      let ay = this.inputs_val["ay"];
+      let l1 = bx - ax;
+      let l2 = cx - bx;
+      let f1 = k * Math.pow(l1, 2);
+      let f2 = k * Math.pow(l2, 2);
+      let tan1 = (by - ay) / l1;
+      let tan2 = (cy - by) / l2;
+      if (x1 > bx) {
+        this.outputs["h1"]["value"] = tan2 * (x1 - bx) - 4 * k * (x1 - bx) * (cx - x1) - y1;
+      } else if (x1 > 0) {
+        this.outputs["h1"]["value"] = tan1 * (x1 - ax) - 4 * k * (x1 - ax) * (bx - x1) - y1;
+      }
+      if (x2 > bx) {
+        this.outputs["h1"]["value"] = tan2 * (x2 - bx) - 4 * k * (x2 - bx) * (cx - x2) - y2;
+      } else if (x2 > 0) {
+        this.outputs["h1"]["value"] = tan1 * (x2 - ax) - 4 * k * (x2 - ax) * (bx - x2) - y2;
+      }
+      if (x3 > bx) {
+        this.outputs["h1"]["value"] = tan2 * (x3 - bx) - 4 * k * (x3 - bx) * (cx - x3) - y3;
+      } else if (x3 > 0) {
+        this.outputs["h1"]["value"] = tan1 * (x3 - ax) - 4 * k * (x3 - ax) * (bx - x3) - y3;
+      }
+      this.outputs["ad"] = 4 * k * l - tan1;
+      this.outputs["cd"] = 4 * k * l + tan2;
+      this.outputs["kv"] = (l1/2 + tan1/8/k + l2/2 - tan2/8/k) / (cx-ax) * 2;
+    },
     fooFunction() {
-      let props = this.formulateForm;
+      let props = this.inputs_name;
       for (var prop in props) {
         if (!(!this.useCheckTowel && ["bx", "cx"].includes(prop))) {
-          let value = this.formulateForm[prop];
+          let value = this.inputs_val[prop];
           if (!this.checkRules(prop, value)) {
             this.openDialog();
             return;
           }
         }
       }
-      console.log(this.formulateForm);
+      if (this.useCheckTowel) {
+        this.CheckTowelCalculate();
+      } else {
+        this.noCheckTowelCalculate();
+      }
     },
     switchChange(e) {
       console.log("switch发生change事件，携带value值为：" + e.mp.detail.value);
@@ -268,60 +298,12 @@ export default {
       if (propHasError) {
         this.error_msg = rules[prop]["error_msg"];
       }
-      this.hasError[prop] = propHasError;
+      this.inputs_error[prop] = propHasError;
       return !propHasError;
     },
-    KInput(e) {
-      this.checkRules("k_val", e.mp.detail.value);
-      this.formulateForm.k_val = e.mp.detail.value;
-    },
-    AxInput(e) {
-      this.checkRules("ax", e.mp.detail.value);
-      this.formulateForm.ax = e.mp.detail.value;
-    },
-    BxInput(e) {
-      this.checkRules("bx", e.mp.detail.value);
-      this.formulateForm.bx = e.mp.detail.value;
-    },
-    CxInput(e) {
-      this.checkRules("cx", e.mp.detail.value);
-      this.formulateForm.cx = e.mp.detail.value;
-    },
-    AyInput(e) {
-      this.checkRules("ay", e.mp.detail.value);
-      this.formulateForm.ay = e.mp.detail.value;
-    },
-    ByInput(e) {
-      this.checkRules("by", e.mp.detail.value);
-      this.formulateForm.by = e.mp.detail.value;
-    },
-    CyInput(e) {
-      this.checkRules("cy", e.mp.detail.value);
-      this.formulateForm.cy = e.mp.detail.value;
-    },
-    X1Input(e) {
-      this.checkRules("x1", e.mp.detail.value);
-      this.formulateForm.x1 = e.mp.detail.value;
-    },
-    X2Input(e) {
-      this.checkRules("x2", e.mp.detail.value);
-      this.formulateForm.x2 = e.mp.detail.value;
-    },
-    X3Input(e) {
-      this.checkRules("x3", e.mp.detail.value);
-      this.formulateForm.x3 = e.mp.detail.value;
-    },
-    Y1Input(e) {
-      this.checkRules("y1", e.mp.detail.value);
-      this.formulateForm.y1 = e.mp.detail.value;
-    },
-    Y2Input(e) {
-      this.checkRules("y2", e.mp.detail.value);
-      this.formulateForm.y2 = e.mp.detail.value;
-    },
-    Y3Input(e) {
-      this.checkRules("y3", e.mp.detail.value);
-      this.formulateForm.y3 = e.mp.detail.value;
+    inputChange(e, prop) {
+      this.checkRules(prop, e.mp.detail.value);
+      this.inputs_val[prop] = e.mp.detail.value;
     },
     openDialog() {
       this.istrue = true;
