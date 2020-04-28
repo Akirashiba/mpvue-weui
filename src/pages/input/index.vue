@@ -64,10 +64,10 @@
       <div class="weui-cells weui-cells_after-title">
         <div v-for="output_prop in outPutList" :key="output_prop" class="weui-cell">
           <div class="weui-cell__hd">
-            <div class="weui-label">{{ outputs[output_prop]['name'] }}</div>
+            <div class="weui-label">{{ outputs_name[output_prop] }}</div>
           </div>
           <div class="weui-cell__bd">
-            <input v-model="outputs[output_prop]['value']" disabled class="weui-input" />
+            <input v-model="outputs_val[output_prop]" disabled class="weui-input" />
           </div>
         </div>
       </div>
@@ -149,35 +149,23 @@ export default {
         x3: rules["x3"]["default"],
         y3: rules["y3"]["default"]
       },
-      outputs: {
-        h1: {
-          name: "高差h1",
-          value: 0.0
-        },
-        h2: {
-          name: "高差h2",
-          value: 0.0
-        },
-        h3: {
-          name: "高差h3",
-          value: 0.0
-        },
-        ad: {
-          name: "后侧悬垂角ad",
-          value: 0.0
-        },
-        cd: {
-          name: "前侧悬垂角cd",
-          value: 0.0
-        },
-        fm: {
-          name: "最大弧垂fm",
-          value: 0.0
-        },
-        kv: {
-          name: "kv系数",
-          value: 0.0
-        }
+      outputs_name: {
+        h1: "高差h1",
+        h2: "高差h2",
+        h3: "高差h3",
+        ad: "后侧悬垂角ad",
+        cd: "前侧悬垂角cd",
+        fm: "最大弧垂fm",
+        kv: "kv系数"
+      },
+      outputs_val: {
+        h1: 0.0,
+        h2: 0.0,
+        h3: 0.0,
+        ad: 0.0,
+        cd: 0.0,
+        fm: 0.0,
+        kv: 0.0
       },
       result: "",
       error_msg: ""
@@ -215,19 +203,19 @@ export default {
       let ax = this.inputs_val["ax"];
       let ay = this.inputs_val["ay"];
       let l = cx - ax;
-      this.outputs["fm"] = k * Math.pow(l, 2);
+      this.outputs_val["fm"] = k * Math.pow(l, 2);
       let tanb = (cy - ay) / l;
       if (x1 > 0) {
-        this.outputs["h1"]["value"] = tanb * (x1 - ax) - 4 * k * (x1 - ax) * (cx - x1) - y1;
+        this.outputs_val["h1"] = tanb * (x1 - ax) - 4 * k * (x1 - ax) * (cx - x1) - y1;
       }
       if (x2 > 0) {
-        this.outputs["h2"]["value"] = tanb * (x2 - ax) - 4 * k * (x2 - ax) * (cx - x2) - y2;
+        this.outputs_val["h2"] = tanb * (x2 - ax) - 4 * k * (x2 - ax) * (cx - x2) - y2;
       }
       if (x3 > 0) {
-        this.outputs["h3"]["value"] = tanb * (x3 - ax) - 4 * k * (x3 - ax) * (cx - x3) - y3;
+        this.outputs_val["h3"] = tanb * (x3 - ax) - 4 * k * (x3 - ax) * (cx - x3) - y3;
       }
-      this.outputs["ad"] = 4 * k * l - tanb;
-      this.outputs["cd"] = 4 * k * l + tanb;
+      this.outputs_val["ad"] = 4 * k * l - tanb;
+      this.outputs_val["cd"] = 4 * k * l + tanb;
     },
     CheckTowelCalculate() {
       let k = this.inputs_val["k_val"];
@@ -245,28 +233,26 @@ export default {
       let ay = this.inputs_val["ay"];
       let l1 = bx - ax;
       let l2 = cx - bx;
-      let f1 = k * Math.pow(l1, 2);
-      let f2 = k * Math.pow(l2, 2);
       let tan1 = (by - ay) / l1;
       let tan2 = (cy - by) / l2;
       if (x1 > bx) {
-        this.outputs["h1"]["value"] = tan2 * (x1 - bx) - 4 * k * (x1 - bx) * (cx - x1) - y1;
+        this.outputs_val["h1"] = tan2 * (x1 - bx) - 4 * k * (x1 - bx) * (cx - x1) - y1;
       } else if (x1 > 0) {
-        this.outputs["h1"]["value"] = tan1 * (x1 - ax) - 4 * k * (x1 - ax) * (bx - x1) - y1;
+        this.outputs_val["h1"] = tan1 * (x1 - ax) - 4 * k * (x1 - ax) * (bx - x1) - y1;
       }
       if (x2 > bx) {
-        this.outputs["h1"]["value"] = tan2 * (x2 - bx) - 4 * k * (x2 - bx) * (cx - x2) - y2;
+        this.outputs_val["h1"] = tan2 * (x2 - bx) - 4 * k * (x2 - bx) * (cx - x2) - y2;
       } else if (x2 > 0) {
-        this.outputs["h1"]["value"] = tan1 * (x2 - ax) - 4 * k * (x2 - ax) * (bx - x2) - y2;
+        this.outputs_val["h1"] = tan1 * (x2 - ax) - 4 * k * (x2 - ax) * (bx - x2) - y2;
       }
       if (x3 > bx) {
-        this.outputs["h1"]["value"] = tan2 * (x3 - bx) - 4 * k * (x3 - bx) * (cx - x3) - y3;
+        this.outputs_val["h1"] = tan2 * (x3 - bx) - 4 * k * (x3 - bx) * (cx - x3) - y3;
       } else if (x3 > 0) {
-        this.outputs["h1"]["value"] = tan1 * (x3 - ax) - 4 * k * (x3 - ax) * (bx - x3) - y3;
+        this.outputs_val["h1"] = tan1 * (x3 - ax) - 4 * k * (x3 - ax) * (bx - x3) - y3;
       }
-      this.outputs["ad"] = 4 * k * l - tan1;
-      this.outputs["cd"] = 4 * k * l + tan2;
-      this.outputs["kv"] = (l1/2 + tan1/8/k + l2/2 - tan2/8/k) / (cx-ax) * 2;
+      this.outputs_val["ad"] = 4 * k * l1 - tan1;
+      this.outputs_val["cd"] = 4 * k * l2 + tan2;
+      this.outputs_val["kv"] = (l1/2 + tan1/8/k + l2/2 - tan2/8/k) / (cx-ax) * 2;
     },
     fooFunction() {
       let props = this.inputs_name;
@@ -290,16 +276,20 @@ export default {
       this.useCheckTowel = e.mp.detail.value;
     },
     checkRules(prop, value) {
-      let propHasError = !rules[prop]["pattern"].test(value);
-      let range = rules[prop]["range"];
-      if (range && !propHasError) {
-        propHasError = value < range[0] || value > range[1];
+      if (rules[prop]) {
+        let propHasError = !rules[prop]["pattern"].test(value);
+        let range = rules[prop]["range"];
+        if (range && !propHasError) {
+          propHasError = value < range[0] || value > range[1];
+        }
+        if (propHasError) {
+          this.error_msg = rules[prop]["error_msg"];
+        }
+        this.inputs_error[prop] = propHasError;
+        return !propHasError;
+      } else {
+        return true;
       }
-      if (propHasError) {
-        this.error_msg = rules[prop]["error_msg"];
-      }
-      this.inputs_error[prop] = propHasError;
-      return !propHasError;
     },
     inputChange(e, prop) {
       this.checkRules(prop, e.mp.detail.value);
