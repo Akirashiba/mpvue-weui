@@ -1,26 +1,77 @@
 <template>
   <div class="materials">
-    1111
+    <div class="weui-search-bar">
+      <div class="weui-search-bar__form">
+        <div class="weui-search-bar__box">
+          <icon class="weui-icon-search_in-box" type="search" size="14"></icon>
+          <input type="text" class="weui-search-bar__input" placeholder="搜索" v-model="inputVal" :focus="inputShowed" @input="inputTyping" />
+          <div class="weui-icon-clear" v-if="inputVal.length > 0" @click="clearInput">
+            <icon type="clear" size="14"></icon>
+          </div>
+        </div>
+        <label class="weui-search-bar__label" :hidden="inputShowed" @click="showInput">
+          <icon class="weui-icon-search" type="search" size="14"></icon>
+          <div class="weui-search-bar__text">搜索</div>
+        </label>
+      </div>
+      <div class="weui-search-bar__cancel-btn" :hidden="!inputShowed" @click="hideInput">取消</div>
+    </div>
+    <div class="weui-cells__title">塔库资料</div>
+    <div class="weui-cells weui-cells_after-title">
+      <navigator
+        v-for="(towel, index) in filterTowelList"
+        :key="index"
+        url=""
+        class="weui-cell weui-cell_access"
+        hover-class="weui-cell_active"
+      >
+        <div class="weui-cell__bd">{{ towel }}</div>
+        <div class="weui-cell__ft weui-cell__ft_in-access">说明文字</div>
+      </navigator>
+    </div>
   </div>
 </template>
 
 <script>
+import { towelList } from "@/utils/materials.js";
 export default {
   name: "materials-page",
   data() {
     return {
-
+      towelList: towelList,
+      inputVal: '',
+      inputShowed: false
     }
   },
   computed: {
+    filterTowelList: function() {
+      return this.towelList.filter(towel => towel.indexOf(this.inputVal) !== -1)
+    }
   },
   mounted: function() {
   },
   methods: {
+    showInput() {
+      this.inputShowed = true;
+    },
+    hideInput() {
+      this.inputVal = '';
+      this.inputShowed = false;
+    },
+    clearInput() {
+      this.inputVal = '';
+    },
+    inputTyping(e) {
+      console.log(e);
+      this.inputVal = e.mp.detail.value;
+      console.log('输入信息为：'+e.mp.detail.value);
+    }
   }
 }
 </script>
 
 <style scoped>
-
+.materials {
+  padding-bottom: 60px;
+}
 </style>

@@ -1,19 +1,16 @@
 <template>
   <div class="page">
-    <div class="page__hd">
-      <div class="page__title">xxx公式计算</div>
-      <div class="page__desc">xxx公式介绍</div>
-    </div>
-
     <div class="page__bd">
-      <div class="weui-navbar">
+      <div class="weui-tabbar">
         <div
           :id="index"
           @click="tabClick"
-          :class="['weui-navbar__item', activeIndex === index ? 'weui-bar__item_on' : '']"
+          :class="['weui-tabbar__item', activeIndex === index ? 'weui-bar__item_on' : '']"
           v-for="(item, index) in tabs" :key="index"
         >
-          <div class="weui-navbar__title">{{ item }}</div>
+          <div style="position: relative;display:inline-block;">
+            <img :src="'/static/images/calculate-'+index+'.png'" class="weui-tabbar__icon" />
+          </div>
         </div>
       </div>
       <div class="weui-tab__panel">
@@ -37,7 +34,7 @@ export default {
   name: "calculate-index",
   data() {
     return {
-      tabs: ['计算', '资料'],
+      tabs: ['公式计算', '塔库资料'],
       activeIndex: 0
     }
   },
@@ -56,7 +53,7 @@ export default {
 </script>
 
 <style scoped>
-.weui-navbar {
+.weui-tabbar {
   position: fixed;
   bottom: 0;
   left: 0;

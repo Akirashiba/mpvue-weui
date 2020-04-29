@@ -368,6 +368,6 @@ button[size='mini'] {
   margin-left: 2em;
 }
 .calculate {
-  padding-bottom: 50px;
+  padding-bottom: 60px;
 }
 </style>
