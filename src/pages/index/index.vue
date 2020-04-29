@@ -1,141 +1,55 @@
 <template>
   <div class="page">
-    <div class="page__hd">
-      <div class="page__title">物理公式计算器</div>
-      <div class="page__desc">一些工作中常用到的公式计算</div>
-    </div>
-    <div class="weui-search-bar">
-        <div class="weui-search-bar__form">
-          <div class="weui-search-bar__box">
-            <icon class="weui-icon-search_in-box" type="search" size="14"></icon>
-            <input type="text" class="weui-search-bar__input" placeholder="搜索" v-model="inputVal" :focus="inputShowed" @input="inputTyping" />
-            <div class="weui-icon-clear" v-if="inputVal.length > 0" @click="clearInput">
-              <icon type="clear" size="14"></icon>
-            </div>
-          </div>
-          <label class="weui-search-bar__label" :hidden="inputShowed" @click="showInput">
-            <icon class="weui-icon-search" type="search" size="14"></icon>
-            <div class="weui-search-bar__text">搜索</div>
-          </label>
-        </div>
-        <div class="weui-search-bar__cancel-btn" :hidden="!inputShowed" @click="hideInput">取消</div>
-      </div>
-    <div class="page__bd page__bd_spacing">
-      <div class="kind-list">
-        <div v-for="(item1,index1) in list" :key="index1">
-          <div class="kind-list__item">
-            <div
-              :id="item1.id"
-              :class="{'kind-list__item-hd_show':item1.open}"
-              class="weui-flex,kind-list__item-hd"
-              @click="kindToggle"
-            >
-              <div class="weui-flex__item">{{item1.name}}</div>
-              <img class="kind-list__img" :src=" '/static/images/icon_nav_'+item1.id+'.png'" />
-            </div>
-            <div :class="{'kind-list__item-bd_show':item1.open}" class="kind-list__item-bd">
-              <div :class="{'weui-cells_show':item1.open}" class="weui-cells">
-                <navigator
-                  v-for="(item2,index2) in item1.pages"
-                  :key="index2"
-                  class="weui-cell weui-cell_access"
-                  :url=" '/pages/'+item2+'/'+'main'+ ''"
-                >
-                  <div class="weui-cell__bd">{{item2}}</div>
-                  <div class="weui-cell__ft weui-cell__ft_in-access"></div>
-                </navigator>
-              </div>
-            </div>
+    <div class="page__bd">
+      <div class="weui-tabbar">
+        <div
+          :id="index"
+          @click="tabClick"
+          :class="['weui-tabbar__item', activeIndex === index ? 'weui-bar__item_on' : '']"
+          v-for="(item, index) in tabs" :key="index"
+        >
+          <div style="position: relative;display:inline-block;">
+            <img :src="'/static/images/calculate-'+index+'.png'" class="weui-tabbar__icon" />
           </div>
         </div>
       </div>
+      <div class="weui-tab__panel">
+        <div class="weui-tab__content" :hidden="activeIndex != 0">
+          <CalculationPage></CalculationPage>
+        </div>
+        <div class="weui-tab__content" :hidden="activeIndex != 1">
+          <MaterialsPage></MaterialsPage>
+        </div>
+      </div>
+      
     </div>
+
   </div>
 </template>
 
 <script>
+import CalculationPage from "@/pages/index/calculate.vue";
+import MaterialsPage from "@/pages/index/materials.vue";
 export default {
+  name: "calculate-index",
   data() {
     return {
-      list: [
-        {
-          id: 'form',
-          name: '电磁学公式',
-          open: false,
-          pages: ['input']
-        },
-        {
-          id: 'widget',
-          name: '光学公式',
-          open: false,
-          pages: [
-            'article',
-            'badge',
-            'flex',
-            'footer',
-            'gallery',
-            'grid',
-            'icons',
-            'loading',
-            'loadmore',
-            'panel',
-            'preview',
-            'progress',
-            'swiper'
-          ]
-        },
-        {
-          id: 'feedback',
-          name: '力学公式',
-          open: false,
-          pages: ['actionsheet', 'dialog', 'half-screen-dialog', 'msg', 'picker', 'toast']
-        },
-        {
-          id: 'nav',
-          name: '热力学公式',
-          open: false,
-          pages: ['navbar', 'navigation-bar', 'tabbar', 'button', 'list', 'slide-view', 'slider', 'uploader']
-        }
-      ],
-      inputShowed: false,
-      inputVal: ''
-    };
-  },
-
-  components: {},
-
-  methods: {
-    kindToggle(e) {
-      var id = e.currentTarget.id;
-      var list = this.list;
-      for (var i = 0, len = list.length; i < len; ++i) {
-        if (list[i].id === id) {
-          list[i].open = !list[i].open;
-        } else {
-          list[i].open = false;
-        }
-      }
-      this.list = list;
-    },
-    showInput() {
-      this.inputShowed = true;
-    },
-    hideInput() {
-      this.inputVal = '';
-      this.inputShowed = false;
-    },
-    clearInput() {
-      this.inputVal = '';
-    },
-    inputTyping(e) {
-      console.log(e);
-      this.inputVal = e.mp.detail.value;
-      console.log('输入信息为：'+e.mp.detail.value);
+      tabs: ['公式计算', '塔库资料'],
+      activeIndex: 0
     }
   },
-
-  created() { }
-};
+  components: { CalculationPage, MaterialsPage },
+  computed: {
+  },
+  mounted: function() {
+  },
+  methods: {
+    tabClick(e) {
+      console.log(e);
+      this.activeIndex = Number(e.currentTarget.id);
+    }
+  }
+}
 </script>
 
 <style scoped>
@@ -217,5 +131,12 @@ export default {
 
 .kind-list__item-bd_show {
   height: auto;
+}
+
+.weui-tabbar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
 }
 </style>
