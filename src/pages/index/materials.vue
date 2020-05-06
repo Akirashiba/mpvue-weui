@@ -18,29 +18,34 @@
     </div>
     <div class="weui-cells__title">塔库资料</div>
     <div class="weui-cells weui-cells_after-title">
-      <navigator
-        v-for="(towel, index) in filterTowelList"
-        :key="index"
-        url=""
-        class="weui-cell weui-cell_access"
-        hover-class="weui-cell_active"
-      >
-        <div class="weui-cell__bd">{{ towel }}</div>
-        <div class="weui-cell__ft weui-cell__ft_in-access">说明文字</div>
-      </navigator>
+      <div v-for="(towel, index) in filterTowelList" :key="index">
+        <div
+          :id="index"
+          class="weui-cell weui-cell_access"
+          hover-class="weui-cell_active"
+          @click="lineClick"
+        >
+          <div class="weui-cell__bd">{{ towel }}</div>
+          <div class="weui-cell__ft">说明文字</div>
+        </div>
+        <towelTable v-if="towelDetail[towel]" :towelData="towelDetail[towel]" :active="index===activeIndex"></towelTable>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
-import { towelList } from "@/utils/materials.js";
+import towelTable from "@/pages/index/towelTable.vue";
+import { towelList, towelDetail } from "@/utils/materials.js";
 export default {
   name: "materials-page",
   data() {
     return {
       towelList: towelList,
+      towelDetail: towelDetail,
       inputVal: '',
-      inputShowed: false
+      inputShowed: false,
+      activeIndex: -1
     }
   },
   computed: {
@@ -48,6 +53,7 @@ export default {
       return this.towelList.filter(towel => towel.indexOf(this.inputVal) !== -1)
     }
   },
+  components: { towelTable },
   mounted: function() {
   },
   methods: {
@@ -65,6 +71,14 @@ export default {
       console.log(e);
       this.inputVal = e.mp.detail.value;
       console.log('输入信息为：'+e.mp.detail.value);
+    },
+    lineClick(e) {
+      let targetIndex = Number(e.currentTarget.id);
+      if (this.activeIndex === targetIndex) {
+        this.activeIndex = -1;
+      } else {
+        this.activeIndex = Number(e.currentTarget.id);
+      }
     }
   }
 }
@@ -72,6 +86,6 @@ export default {
 
 <style scoped>
 .materials {
-  padding-bottom: 60px;
+  padding-bottom: 30px;
 }
 </style>

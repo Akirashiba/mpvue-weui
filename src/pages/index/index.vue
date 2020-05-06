@@ -21,9 +21,10 @@
           <MaterialsPage></MaterialsPage>
         </div>
       </div>
-      
+      <div class="weui-footer">
+        <div class="weui-footer__text">Developed by Akirashiba</div>
+      </div>
     </div>
-
   </div>
 </template>
 
@@ -138,5 +139,9 @@ export default {
   bottom: 0;
   left: 0;
   right: 0;
+}
+
+.weui-footer {
+  padding-bottom: 60px;
 }
 </style>

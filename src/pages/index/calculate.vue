@@ -356,7 +356,7 @@ export default {
   opacity: 1;
 }
 .weui-btn-area {
-  margin: 48px 16px 8px;
+  margin: 20px 16px 0px;
   text-align: center;
 }
 button[size='mini'] {
@@ -368,6 +368,6 @@ button[size='mini'] {
   margin-left: 2em;
 }
 .calculate {
-  padding-bottom: 60px;
+  padding-bottom: 30px;
 }
 </style>

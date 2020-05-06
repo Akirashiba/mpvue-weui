@@ -5,7 +5,7 @@
   "window": {
     "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#ededed",
-    "navigationBarTitleText": "formula calculator",
+    "navigationBarTitleText": "输电线路工程现场定位计算工具",
     "navigationBarTextStyle": "black"
   },
   "style": "v2"
